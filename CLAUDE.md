@@ -5,6 +5,10 @@ Portfolio project for Pedro's application to iFood GEN AI 2027 (AI Engineer trac
 ## How to work here
 - Build one module at a time (M0…M8). For each module, briefly explain the concepts so Pedro can defend every decision in an interview, and warn about common mistakes (leakage, overfitting, wrong teacher, OOM).
 - Pedro is intermediate in Python and a beginner with LLM fine-tuning and MLOps.
+- **Never assume he knows a term.** The first time a concept, tool or metric appears (e.g. NER,
+  spaCy, F1, notebook, kernel, secret, LoRA), explain in plain words what it is, why it matters
+  here, and what he has to do with it — step by step for anything he must do himself.
+- Ask before any paid API call (state the cost) and before running any model. Budget: US$5 total.
 - Code, docs and comments in English. Review text and labels are Brazilian Portuguese.
 - Never send PII or real API keys anywhere. Keys live in `.env` (gitignored).
 - API spend is capped at US$5 in total; every LLM call must go through the cached, budget-capped client.
