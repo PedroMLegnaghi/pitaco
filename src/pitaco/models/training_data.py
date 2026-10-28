@@ -21,11 +21,8 @@ STARS = (1, 2, 3, 4, 5)
 
 
 def keep(record: PredictionRecord) -> bool:
-    return (
-        record.valid_schema
-        and record.analysis is not None
-        and record.n_grounded == record.n_evidence
-    )
+    # Repaired outputs (same-sentiment duplicates merged) are usable; conflicting ones are not.
+    return record.analysis is not None and record.n_grounded == record.n_evidence
 
 
 def compact_json(analysis: ReviewAnalysis) -> str:

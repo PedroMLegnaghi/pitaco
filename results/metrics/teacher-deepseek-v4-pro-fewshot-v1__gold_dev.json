@@ -1,0 +1,159 @@
+{
+  "system": "teacher-deepseek-v4-pro-fewshot-v1",
+  "split": "gold_dev",
+  "n_gold": 50,
+  "n_predicted": 50,
+  "valid_json_rate": 1.0,
+  "valid_schema_rate": 0.92,
+  "repaired_rate": 0.06,
+  "usable_rate": 0.98,
+  "grounding_rate": 1.0,
+  "aspect_macro_f1": 0.8772921003072653,
+  "aspect_micro_f1": 0.9206349206349206,
+  "joint_macro_f1": 0.8772921003072653,
+  "joint_micro_f1": 0.9206349206349206,
+  "sentiment_accuracy_matched": 1.0,
+  "sentiment_macro_f1_matched": 1.0,
+  "kappa_mean": 0.8623723307243404,
+  "ci95": {
+    "aspect_macro_f1": {
+      "value": 0.8772921003072653,
+      "ci_low": 0.7202907982931653,
+      "ci_high": 0.9539267676767675
+    },
+    "joint_macro_f1": {
+      "value": 0.8772921003072653,
+      "ci_low": 0.7202907982931653,
+      "ci_high": 0.9539267676767675
+    },
+    "joint_micro_f1": {
+      "value": 0.9206349206349206,
+      "ci_low": 0.8503338582677166,
+      "ci_high": 0.9752066115702478
+    },
+    "sentiment_macro_f1_matched": {
+      "value": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0
+    }
+  },
+  "efficiency": {
+    "latency_p50_s": 1.537551491004706,
+    "latency_p95_s": 3.467027092444911,
+    "usd_per_1k_reviews": 0.48385171360000007
+  },
+  "detail": {
+    "detection": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.9473684210526315,
+          "recall": 0.9473684210526315,
+          "f1": 0.9473684210526315,
+          "support": 19,
+          "predicted": 19
+        },
+        "produto": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "f1": 0.983050847457627,
+          "support": 30,
+          "predicted": 29
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.5714285714285714,
+          "recall": 0.8,
+          "f1": 0.6666666666666666,
+          "support": 5,
+          "predicted": 7
+        },
+        "preco": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1,
+          "predicted": 1
+        },
+        "outro": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "support": 3,
+          "predicted": 6
+        }
+      },
+      "macro_f1": 0.8772921003072653,
+      "micro_f1": 0.9206349206349206
+    },
+    "joint": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.9473684210526315,
+          "recall": 0.9473684210526315,
+          "f1": 0.9473684210526315,
+          "support": 19,
+          "predicted": 19
+        },
+        "produto": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "f1": 0.983050847457627,
+          "support": 30,
+          "predicted": 29
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.5714285714285714,
+          "recall": 0.8,
+          "f1": 0.6666666666666666,
+          "support": 5,
+          "predicted": 7
+        },
+        "preco": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1,
+          "predicted": 1
+        },
+        "outro": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "support": 3,
+          "predicted": 6
+        }
+      },
+      "macro_f1": 0.8772921003072653,
+      "micro_f1": 0.9206349206349206
+    },
+    "sentiment": {
+      "n": 58,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    "kappa": {
+      "per_aspect": {
+        "entrega": 0.9284180386542591,
+        "produto": 0.96875,
+        "embalagem": 1.0,
+        "atendimento": 0.6316758747697975,
+        "preco": 1.0,
+        "outro": 0.6453900709219855
+      },
+      "mean": 0.8623723307243404
+    }
+  }
+}

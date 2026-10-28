@@ -1,0 +1,9 @@
+{
+  "discussed_before_labeling": [
+    "d13b2ebcc9403482cbe43f768238f7b8",
+    "c67233e8ee95310675c788e1df3cc8fc",
+    "e3e0e7f4081ffd62dc417341142171a4",
+    "df147e480aba991514e34c5b44b0d989"
+  ],
+  "reason": "used as worked examples in chat before the annotator labeled them (possible anchoring)"
+}

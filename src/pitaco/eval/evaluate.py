@@ -61,6 +61,9 @@ def evaluate(
         "n_predicted": len(present),
         "valid_json_rate": sum(r.valid_json for r in present) / len(ids),
         "valid_schema_rate": sum(r.valid_schema for r in present) / len(ids),
+        "repaired_rate": sum(r.repaired for r in present) / len(ids),
+        "usable_rate": sum(r.analysis is not None or r.mentions is not None for r in present)
+        / len(ids),
         "grounding_rate": (sum(r.n_grounded for r in present) / n_evidence) if n_evidence else None,
         **{k: v for k, v in metrics.items() if k != "detail"},
         "ci95": cis,

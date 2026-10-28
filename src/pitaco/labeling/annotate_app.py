@@ -69,6 +69,11 @@ def build_app(reviews_path: Path, annotations_path: Path, seed: int, annotator: 
     with gr.Blocks(title="Pitaco · anotação") as app:
         index = gr.State(0)
         progress = gr.Markdown()
+        gr.Markdown(
+            "Marque **só os aspectos que a avaliação avalia**. Não mencionado → deixe "
+            '**— não mencionado**. `neutro` = avaliação morna ("razoável", "ok"), '
+            "não ausência."
+        )
         text = gr.Markdown()
         radios = [
             gr.Radio(list(CHOICES), value=CHOICES[0], label=f"{a} — {ASPECT_HELP[a]}")

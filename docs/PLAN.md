@@ -12,7 +12,7 @@
 |---|---|---|
 | Student | `Qwen3.5-4B`, 16-bit LoRA (Unsloth) | Newest Apache-2.0 model in range; Unsloth advises against QLoRA on Qwen3.5; 4B fits a T4 in 16-bit (~10 GB) |
 | Student fallback | `Qwen3-4B-Instruct-2507` + QLoRA | Plain transformer, mature tooling; switch if Qwen3.5 blocks > 1 h |
-| Teacher | Open-weight, MIT/Apache (DeepSeek V4 Flash / V4 Pro / Qwen3.5-397B), picked by a dev-50 bake-off | Labels redistributable, reproducible, < US$3 |
+| Teacher | **DeepSeek V4.1 Flash** (`deepseek/deepseek-v4.1-flash-1017`, MIT), prompt v2 — chosen 2026-10-28 on dev-50: same agreement as V4 Pro (joint micro-F1 0.92, paired diff −0.002 ± 0.06) at ⅓ the cost; Qwen3.5-397B too expensive for silver (weak prefix caching) | Labels redistributable, reproducible, ≈ US$0.12 per 1k reviews |
 | Closed reference (optional) | Claude Sonnet 5.5 on test-250 only | Frontier ceiling, ~US$1 |
 | API access | One OpenRouter account, hard cap `budget.max_usd` | Single key, single top-up |
 | Gold set | 300 = dev 50 (prompt/guideline tuning) + test 250 (final eval only), star-stratified, labeled blind | Prompt tuning on test would inflate results |

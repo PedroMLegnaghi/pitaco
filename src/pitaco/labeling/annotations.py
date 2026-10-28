@@ -12,7 +12,7 @@ from pathlib import Path
 
 from pitaco.schema import ASPECTS, GoldAnnotation, GoldMention
 
-ABSENT = "—"
+ABSENT = "— não mencionado"
 CHOICES = (ABSENT, "positivo", "neutro", "negativo")
 
 

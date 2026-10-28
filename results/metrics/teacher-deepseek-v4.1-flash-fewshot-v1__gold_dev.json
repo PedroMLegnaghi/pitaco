@@ -1,0 +1,159 @@
+{
+  "system": "teacher-deepseek-v4.1-flash-fewshot-v1",
+  "split": "gold_dev",
+  "n_gold": 50,
+  "n_predicted": 50,
+  "valid_json_rate": 1.0,
+  "valid_schema_rate": 0.94,
+  "repaired_rate": 0.06,
+  "usable_rate": 1.0,
+  "grounding_rate": 1.0,
+  "aspect_macro_f1": 0.842948717948718,
+  "aspect_micro_f1": 0.9375,
+  "joint_macro_f1": 0.8344017094017094,
+  "joint_micro_f1": 0.9218749999999999,
+  "sentiment_accuracy_matched": 0.9833333333333333,
+  "sentiment_macro_f1_matched": 0.8823529411764706,
+  "kappa_mean": 0.8257431030342058,
+  "ci95": {
+    "aspect_macro_f1": {
+      "value": 0.842948717948718,
+      "ci_low": 0.6538461538461539,
+      "ci_high": 0.9515367965367966
+    },
+    "joint_macro_f1": {
+      "value": 0.8344017094017094,
+      "ci_low": 0.6411647567984301,
+      "ci_high": 0.9444444444444445
+    },
+    "joint_micro_f1": {
+      "value": 0.9218749999999999,
+      "ci_low": 0.8656716417910447,
+      "ci_high": 0.9739158667419536
+    },
+    "sentiment_macro_f1_matched": {
+      "value": 0.8823529411764706,
+      "ci_low": 0.6491228070175439,
+      "ci_high": 1.0
+    }
+  },
+  "efficiency": {
+    "latency_p50_s": 1.0614811465056846,
+    "latency_p95_s": 1.9016115597027234,
+    "usd_per_1k_reviews": 0.14690082799999998
+  },
+  "detail": {
+    "detection": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.95,
+          "recall": 1.0,
+          "f1": 0.9743589743589743,
+          "support": 19,
+          "predicted": 20
+        },
+        "produto": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 30,
+          "predicted": 30
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.5714285714285714,
+          "recall": 0.8,
+          "f1": 0.6666666666666666,
+          "support": 5,
+          "predicted": 7
+        },
+        "preco": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "support": 1,
+          "predicted": 2
+        },
+        "outro": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.7499999999999999,
+          "support": 3,
+          "predicted": 5
+        }
+      },
+      "macro_f1": 0.842948717948718,
+      "micro_f1": 0.9375
+    },
+    "joint": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.9,
+          "recall": 0.9473684210526315,
+          "f1": 0.9230769230769231,
+          "support": 19,
+          "predicted": 20
+        },
+        "produto": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 30,
+          "predicted": 30
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.5714285714285714,
+          "recall": 0.8,
+          "f1": 0.6666666666666666,
+          "support": 5,
+          "predicted": 7
+        },
+        "preco": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "support": 1,
+          "predicted": 2
+        },
+        "outro": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.7499999999999999,
+          "support": 3,
+          "predicted": 5
+        }
+      },
+      "macro_f1": 0.8344017094017094,
+      "micro_f1": 0.9218749999999999
+    },
+    "sentiment": {
+      "n": 60,
+      "accuracy": 0.9833333333333333,
+      "macro_f1": 0.8823529411764706
+    },
+    "kappa": {
+      "per_aspect": {
+        "entrega": 0.9288762446657183,
+        "produto": 1.0,
+        "embalagem": 1.0,
+        "atendimento": 0.6316758747697975,
+        "preco": 0.6598639455782308,
+        "outro": 0.734042553191489
+      },
+      "mean": 0.8257431030342058
+    }
+  }
+}

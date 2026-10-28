@@ -19,7 +19,8 @@ class PredictionRecord(BaseModel):
     # Label-only systems (BERTimbau) emit no JSON, evidence or summary — only aspect + sentiment.
     mentions: list[GoldMention] | None = None
     valid_json: bool
-    valid_schema: bool
+    valid_schema: bool  # strict: the raw output followed the schema
+    repaired: bool = False  # usable only after merging same-sentiment duplicate aspects
     n_evidence: int = 0
     n_grounded: int = 0
     latency_s: float | None = None
@@ -45,6 +46,7 @@ def record_from_raw(
         analysis=parsed.analysis,
         valid_json=parsed.valid_json,
         valid_schema=parsed.valid_schema,
+        repaired=parsed.repaired,
         n_evidence=parsed.n_evidence,
         n_grounded=parsed.n_grounded,
         error=parsed.error,
@@ -66,3 +68,20 @@ def read_predictions(path: Path) -> dict[str, PredictionRecord]:
         if line.strip()
     )
     return {r.review_id: r for r in records}
+
+
+def reparse(path: Path, texts: dict[str, str], fuzzy_threshold: int = 90) -> list[PredictionRecord]:
+    """Re-run parsing on stored raw outputs (no model call) after a parser change."""
+    meta = ("latency_s", "cost_usd", "input_tokens", "output_tokens")
+    out = []
+    for r in read_predictions(path).values():
+        if r.raw is None:
+            out.append(r)
+            continue
+        kept = {k: getattr(r, k) for k in meta}
+        out.append(
+            record_from_raw(
+                r.review_id, r.system, r.raw, texts[r.review_id], fuzzy_threshold, **kept
+            )
+        )
+    return out

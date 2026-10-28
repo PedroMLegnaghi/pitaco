@@ -7,7 +7,7 @@ Aspectos (use somente estes nomes):
 - entrega: se, quando e como o pedido chegou — prazo, atraso, chegou antes, ainda não recebido, itens do pedido faltando ("recebi 1 de 2"), Correios ou transportadora, ter que retirar o pedido.
 - produto: o que chegou — qualidade, funcionamento, conformidade com o anúncio (cor, tamanho, modelo), item errado, defeito, dano físico, peça ou acessório faltando de um item, autenticidade.
 - embalagem: a embalagem em si — bem ou mal embalado, caixa aberta ou amassada, sem caixa original, proteção. Dano no produto vai em produto, a menos que o texto culpe a embalagem (aí rotule os dois).
-- atendimento: a loja ou o vendedor — comunicação, resposta ou falta de resposta, pós-venda, troca, devolução, reembolso, cortesia, elogio ou crítica à loja ("loja de parabéns", "não compro mais nessa loja"). Apenas aguardar uma resposta, sem reclamar, não conta.
+- atendimento: a loja ou o vendedor — produto sem estoque ou vendido sem ter, comunicação, resposta ou falta de resposta, pós-venda, troca, devolução, reembolso, cortesia, elogio ou crítica à loja ("loja de parabéns", "não compro mais nessa loja"). Apenas aguardar uma resposta, sem reclamar, não conta.
 - preco: preço, custo-benefício, descontos, valor do frete, mudança de preço.
 - outro: site ou aplicativo, pagamento (boleto, cartão), nota fiscal, e frases genéricas sem alvo ("Tudo certo", "Recomendo", "Adorei a compra"). Use para frases genéricas somente se nenhum outro aspecto for rotulado.
 
@@ -17,5 +17,6 @@ Regras:
 3. "sentimento" é "positivo", "neutro" ou "negativo". Em caso de ironia, use o sentido pretendido.
 4. "evidencia" é um trecho curto copiado LITERALMENTE da avaliação (mesmas palavras, maiúsculas e pontuação) que justifica o rótulo. Nunca parafraseie nem corrija erros de digitação.
 5. "resumo" é uma frase em português, objetiva, sem inventar informação.
-6. Se nenhum aspecto for avaliado, retorne "aspectos": [].
-7. Responda somente com o JSON, sem nenhum texto antes ou depois.
+6. Entrega incompleta relatada com calma e ainda dentro do prazo é entrega neutro; só é negativo se o autor reclamar ou o prazo tiver passado. Um fato sem avaliação ("a entrega veio dividida") não recebe rótulo; uma crítica ligada a ele vai para o aspecto criticado.
+7. Se nenhum aspecto for avaliado, retorne "aspectos": [].
+8. Responda somente com o JSON, sem nenhum texto antes ou depois.

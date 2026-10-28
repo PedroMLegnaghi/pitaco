@@ -88,3 +88,27 @@ def test_strict_schema_is_self_contained_and_closed():
     assert item["additionalProperties"] is False
     assert set(item["required"]) == {"aspecto", "sentimento", "evidencia"}
     assert "entrega" in item["properties"]["aspecto"]["enum"]
+
+
+def _dup(s1, s2):
+    return json.dumps(
+        {
+            "aspectos": [
+                {"aspecto": "produto", "sentimento": s1, "evidencia": "Recebi no prazo"},
+                {"aspecto": "produto", "sentimento": s2, "evidencia": "a Cor veio diferente"},
+            ],
+            "resumo": "x",
+        }
+    )
+
+
+def test_same_sentiment_duplicates_are_merged_but_not_strictly_valid():
+    out = parse_output(_dup("negativo", "negativo"), REVIEW)
+    assert out.repaired and not out.valid_schema
+    assert out.analysis.pairs() == {("produto", "negativo")}
+    assert out.analysis.aspectos[0].evidencia == "Recebi no prazo"  # first evidence kept
+
+
+def test_conflicting_duplicates_stay_invalid():
+    out = parse_output(_dup("positivo", "negativo"), REVIEW)
+    assert not out.repaired and out.analysis is None

@@ -1,0 +1,159 @@
+{
+  "system": "teacher-qwen3.5-397b-fewshot-v1",
+  "split": "gold_dev",
+  "n_gold": 50,
+  "n_predicted": 50,
+  "valid_json_rate": 1.0,
+  "valid_schema_rate": 1.0,
+  "repaired_rate": 0.0,
+  "usable_rate": 1.0,
+  "grounding_rate": 0.9692307692307692,
+  "aspect_macro_f1": 0.8614394055072022,
+  "aspect_micro_f1": 0.9047619047619049,
+  "joint_macro_f1": 0.6947727388405355,
+  "joint_micro_f1": 0.8888888888888888,
+  "sentiment_accuracy_matched": 0.9824561403508771,
+  "sentiment_macro_f1_matched": 0.926241134751773,
+  "kappa_mean": 0.7595306616508025,
+  "ci95": {
+    "aspect_macro_f1": {
+      "value": 0.8614394055072022,
+      "ci_low": 0.7134081320628338,
+      "ci_high": 0.9259619125427949
+    },
+    "joint_macro_f1": {
+      "value": 0.6947727388405355,
+      "ci_low": 0.5792823956223814,
+      "ci_high": 0.8843274555903865
+    },
+    "joint_micro_f1": {
+      "value": 0.8888888888888888,
+      "ci_low": 0.8321138686131386,
+      "ci_high": 0.9384615384615386
+    },
+    "sentiment_macro_f1_matched": {
+      "value": 0.926241134751773,
+      "ci_low": 0.6527777777777778,
+      "ci_high": 1.0
+    }
+  },
+  "efficiency": {
+    "latency_p50_s": 2.414205786000821,
+    "latency_p95_s": 4.327807716400275,
+    "usd_per_1k_reviews": 1.1984118
+  },
+  "detail": {
+    "detection": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.9444444444444444,
+          "recall": 0.8947368421052632,
+          "f1": 0.918918918918919,
+          "support": 19,
+          "predicted": 18
+        },
+        "produto": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "f1": 0.983050847457627,
+          "support": 30,
+          "predicted": 29
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.5714285714285714,
+          "recall": 0.8,
+          "f1": 0.6666666666666666,
+          "support": 5,
+          "predicted": 7
+        },
+        "preco": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1,
+          "predicted": 1
+        },
+        "outro": {
+          "precision": 0.42857142857142855,
+          "recall": 1.0,
+          "f1": 0.6,
+          "support": 3,
+          "predicted": 7
+        }
+      },
+      "macro_f1": 0.8614394055072022,
+      "micro_f1": 0.9047619047619049
+    },
+    "joint": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.9444444444444444,
+          "recall": 0.8947368421052632,
+          "f1": 0.918918918918919,
+          "support": 19,
+          "predicted": 18
+        },
+        "produto": {
+          "precision": 1.0,
+          "recall": 0.9666666666666667,
+          "f1": 0.983050847457627,
+          "support": 30,
+          "predicted": 29
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.5714285714285714,
+          "recall": 0.8,
+          "f1": 0.6666666666666666,
+          "support": 5,
+          "predicted": 7
+        },
+        "preco": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1,
+          "predicted": 1
+        },
+        "outro": {
+          "precision": 0.42857142857142855,
+          "recall": 1.0,
+          "f1": 0.6,
+          "support": 3,
+          "predicted": 7
+        }
+      },
+      "macro_f1": 0.6947727388405355,
+      "micro_f1": 0.8888888888888888
+    },
+    "sentiment": {
+      "n": 57,
+      "accuracy": 0.9824561403508771,
+      "macro_f1": 0.926241134751773
+    },
+    "kappa": {
+      "per_aspect": {
+        "entrega": 0.8902706656912948,
+        "produto": 0.9685534591194969,
+        "embalagem": 1.0,
+        "atendimento": 0.6316758747697975,
+        "preco": 0.4949494949494941,
+        "outro": 0.5717344753747324
+      },
+      "mean": 0.7595306616508025
+    }
+  }
+}

@@ -105,6 +105,7 @@ def label(
     split: Annotated[str, typer.Option(help="gold_dev | gold_test | silver_train | silver_val")],
     mode: Annotated[str, typer.Option(help="fewshot | zeroshot")] = "fewshot",
     limit: Annotated[int | None, typer.Option(help="only the first N reviews")] = None,
+    prompt_version: Annotated[str | None, typer.Option(help="override config prompt")] = None,
     execute: Annotated[bool, typer.Option("--execute", help="actually call the API")] = False,
     config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/teacher.yaml"),
 ) -> None:
@@ -116,6 +117,8 @@ def label(
     if mode not in {"fewshot", "zeroshot"}:
         raise typer.BadParameter("mode must be fewshot or zeroshot")
     cfg = load_config(config, teacher.TeacherConfig)
+    if prompt_version:
+        cfg = cfg.model_copy(update={"prompt_version": prompt_version})
     if model not in cfg.models:
         raise typer.BadParameter(f"unknown model; choose from {sorted(cfg.models)}")
     teacher.check_fewshot_not_in_gold(cfg)
@@ -124,6 +127,27 @@ def label(
         typer.echo("dry run — nothing was sent. Re-run with --execute to call the API.")
         return
     typer.echo(json.dumps(teacher.run(cfg, model, mode, split, limit), indent=2))
+
+
+@app.command("reparse")
+def reparse_cmd(
+    system: Annotated[str, typer.Option(help="system folder under results/predictions")],
+    split: Annotated[str, typer.Option(help="split file to re-parse")],
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/base.yaml"),
+) -> None:
+    """Re-apply the current parser to stored raw outputs (no model call)."""
+    import pandas as pd
+
+    from pitaco.predictions import reparse, write_predictions
+
+    cfg = load_config(config)
+    reviews = pd.read_json(cfg.paths.data_dir / "processed" / f"{split}.jsonl", lines=True)
+    path = cfg.paths.results_dir / "predictions" / system / f"{split}.jsonl"
+    records = reparse(path, dict(zip(reviews.review_id, reviews.text, strict=True)))
+    write_predictions(path, records)
+    typer.echo(
+        f"{system}/{split}: {len(records)} re-parsed, {sum(r.repaired for r in records)} repaired"
+    )
 
 
 @app.command("evaluate")

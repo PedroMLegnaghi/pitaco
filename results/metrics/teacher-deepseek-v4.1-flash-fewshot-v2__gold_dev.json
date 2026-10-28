@@ -1,0 +1,159 @@
+{
+  "system": "teacher-deepseek-v4.1-flash-fewshot-v2",
+  "split": "gold_dev",
+  "n_gold": 50,
+  "n_predicted": 50,
+  "valid_json_rate": 1.0,
+  "valid_schema_rate": 0.92,
+  "repaired_rate": 0.06,
+  "usable_rate": 0.98,
+  "grounding_rate": 1.0,
+  "aspect_macro_f1": 0.9030497280497279,
+  "aspect_micro_f1": 0.9365079365079365,
+  "joint_macro_f1": 0.8945027195027194,
+  "joint_micro_f1": 0.9206349206349206,
+  "sentiment_accuracy_matched": 0.9830508474576272,
+  "sentiment_macro_f1_matched": 0.8823529411764706,
+  "kappa_mean": 0.8837309369864975,
+  "ci95": {
+    "aspect_macro_f1": {
+      "value": 0.9030497280497279,
+      "ci_low": 0.7422273340694392,
+      "ci_high": 0.97459177157453
+    },
+    "joint_macro_f1": {
+      "value": 0.8945027195027194,
+      "ci_low": 0.7289452179176755,
+      "ci_high": 0.9664066356512094
+    },
+    "joint_micro_f1": {
+      "value": 0.9206349206349206,
+      "ci_low": 0.8656716417910447,
+      "ci_high": 0.9714671814671815
+    },
+    "sentiment_macro_f1_matched": {
+      "value": 0.8823529411764706,
+      "ci_low": 0.6491228070175439,
+      "ci_high": 1.0
+    }
+  },
+  "efficiency": {
+    "latency_p50_s": 0.9184679754980607,
+    "latency_p95_s": 1.8002142774093952,
+    "usd_per_1k_reviews": 0.1177920368
+  },
+  "detail": {
+    "detection": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.95,
+          "recall": 1.0,
+          "f1": 0.9743589743589743,
+          "support": 19,
+          "predicted": 20
+        },
+        "produto": {
+          "precision": 0.9666666666666667,
+          "recall": 0.9666666666666667,
+          "f1": 0.9666666666666667,
+          "support": 30,
+          "predicted": 30
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.6666666666666666,
+          "recall": 0.8,
+          "f1": 0.7272727272727272,
+          "support": 5,
+          "predicted": 6
+        },
+        "preco": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1,
+          "predicted": 1
+        },
+        "outro": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.7499999999999999,
+          "support": 3,
+          "predicted": 5
+        }
+      },
+      "macro_f1": 0.9030497280497279,
+      "micro_f1": 0.9365079365079365
+    },
+    "joint": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.9,
+          "recall": 0.9473684210526315,
+          "f1": 0.9230769230769231,
+          "support": 19,
+          "predicted": 20
+        },
+        "produto": {
+          "precision": 0.9666666666666667,
+          "recall": 0.9666666666666667,
+          "f1": 0.9666666666666667,
+          "support": 30,
+          "predicted": 30
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.6666666666666666,
+          "recall": 0.8,
+          "f1": 0.7272727272727272,
+          "support": 5,
+          "predicted": 6
+        },
+        "preco": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1,
+          "predicted": 1
+        },
+        "outro": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.7499999999999999,
+          "support": 3,
+          "predicted": 5
+        }
+      },
+      "macro_f1": 0.8945027195027194,
+      "micro_f1": 0.9206349206349206
+    },
+    "sentiment": {
+      "n": 59,
+      "accuracy": 0.9830508474576272,
+      "macro_f1": 0.8823529411764706
+    },
+    "kappa": {
+      "per_aspect": {
+        "entrega": 0.9288762446657183,
+        "produto": 0.9382716049382716,
+        "embalagem": 1.0,
+        "atendimento": 0.7011952191235057,
+        "preco": 1.0,
+        "outro": 0.734042553191489
+      },
+      "mean": 0.8837309369864975
+    }
+  }
+}

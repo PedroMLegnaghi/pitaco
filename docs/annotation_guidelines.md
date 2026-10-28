@@ -1,4 +1,4 @@
-# Annotation guidelines — v1.0
+# Annotation guidelines — v1.1
 
 These rules define the gold labels. The teacher prompt (M3) is derived from them, so a rule that is
 ambiguous here becomes noise in both the gold and the silver data. When a review does not fit,
@@ -44,6 +44,15 @@ Dominance rules, in order:
 2. **The more severe or more emphasized point wins.** "Veio um pouco amassadinha, mas gostei da
    pigmentação" → `produto: positivo`.
 3. **Truly balanced → `neutro`.** Use sparingly.
+
+Rulings added in v1.1 (from the dev round):
+- **Out of stock / store sold something it did not have** → `atendimento` (how the seller handled
+  it), not `outro`.
+- **Incomplete delivery reported calmly while still within the deadline** ("recebi 2 de 3, ainda
+  está no prazo, espero receber") → `entrega: neutro`. It is `negativo` only if the author
+  complains or the deadline has passed.
+- **A delivery fact with no evaluation** ("a entrega veio dividida") gets no label; a criticism
+  attached to it ("o ideal é avisar ao cliente") goes to the aspect it criticizes (`atendimento`).
 
 Irony is labeled by intended meaning ("Parabéns, 2 meses e nada" → `entrega: negativo`).
 

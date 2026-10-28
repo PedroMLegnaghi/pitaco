@@ -69,6 +69,7 @@ class ParsedOutput:
     valid_schema: bool
     analysis: ReviewAnalysis | None  # evidence snapped to the review text where possible
     error: str | None = None
+    repaired: bool = False
     n_evidence: int = 0
     n_exact: int = 0
     n_snapped: int = 0
@@ -80,7 +81,27 @@ class ParsedOutput:
 
     @property
     def fully_grounded(self) -> bool:
-        return self.valid_schema and self.n_ungrounded == 0
+        return self.analysis is not None and self.n_ungrounded == 0
+
+
+def merge_same_sentiment_duplicates(obj: dict) -> tuple[dict, bool]:
+    """Deterministic repair: an aspect listed twice WITH THE SAME sentiment is merged (first
+    evidence kept). Conflicting duplicates are left alone — resolving them needs judgment."""
+    mentions = obj.get("aspectos")
+    if not isinstance(mentions, list) or not all(isinstance(m, dict) for m in mentions):
+        return obj, False
+    sentiments: dict = {}
+    for m in mentions:
+        sentiments.setdefault(m.get("aspecto"), set()).add(m.get("sentimento"))
+    duplicated = len(mentions) != len(sentiments)
+    if not duplicated or any(len(v) > 1 for v in sentiments.values()):
+        return obj, False
+    seen, merged = set(), []
+    for m in mentions:
+        if m.get("aspecto") not in seen:
+            seen.add(m.get("aspecto"))
+            merged.append(m)
+    return {**obj, "aspectos": merged}, True
 
 
 def parse_output(raw: str, review_text: str, fuzzy_threshold: int = 90) -> ParsedOutput:
@@ -89,9 +110,16 @@ def parse_output(raw: str, review_text: str, fuzzy_threshold: int = 90) -> Parse
         return ParsedOutput(valid_json=False, valid_schema=False, analysis=None, error="no JSON")
     try:
         analysis = ReviewAnalysis.model_validate(obj)
+        repaired = False
     except ValidationError as exc:
         error = exc.errors()[0]["msg"] if exc.errors() else str(exc)
-        return ParsedOutput(valid_json=True, valid_schema=False, analysis=None, error=error)
+        fixed, repaired = merge_same_sentiment_duplicates(obj)
+        if not repaired:
+            return ParsedOutput(valid_json=True, valid_schema=False, analysis=None, error=error)
+        try:
+            analysis = ReviewAnalysis.model_validate(fixed)
+        except ValidationError:
+            return ParsedOutput(valid_json=True, valid_schema=False, analysis=None, error=error)
 
     mentions, exact, snapped, ungrounded = [], 0, 0, 0
     for mention in analysis.aspectos:
@@ -111,8 +139,9 @@ def parse_output(raw: str, review_text: str, fuzzy_threshold: int = 90) -> Parse
         )
     return ParsedOutput(
         valid_json=True,
-        valid_schema=True,
+        valid_schema=not repaired,  # strict validity: a repaired output did not follow the schema
         analysis=ReviewAnalysis(aspectos=mentions, resumo=analysis.resumo),
+        repaired=repaired,
         n_evidence=len(mentions),
         n_exact=exact,
         n_snapped=snapped,

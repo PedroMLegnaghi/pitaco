@@ -1,7 +1,7 @@
 extends: base.yaml
 
 prompts_dir: prompts
-prompt_version: v1
+prompt_version: v2            # chosen on gold dev, see prompts/CHANGELOG.md
 temperature: 0.0          # deterministic-as-possible labels
 max_tokens: 400           # caps the cost of a single runaway answer
 concurrency: 8
