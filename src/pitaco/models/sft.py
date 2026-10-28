@@ -175,7 +175,7 @@ def train(cfg: StudentConfig) -> dict:
             per_device_train_batch_size=t.batch_size,
             per_device_eval_batch_size=t.batch_size,
             gradient_accumulation_steps=t.grad_accum,
-            warmup_ratio=t.warmup_ratio,
+            warmup_steps=t.warmup_ratio,  # transformers v5: a float < 1 is a fraction of training
             weight_decay=t.weight_decay,
             lr_scheduler_type=t.scheduler,
             optim="adamw_8bit",
@@ -216,7 +216,9 @@ def _generate(model, tokenizer, cfg: StudentConfig, prompts: list[str]) -> list[
     return tok.batch_decode(new_tokens, skip_special_tokens=True)
 
 
-def predict(cfg: StudentConfig, adapter: Path | None, system: str) -> dict:
+def predict(
+    cfg: StudentConfig, adapter: Path | None, system: str, limit: int | None = None
+) -> dict:
     """Greedy predictions on gold dev/test (batch size 1 → latency) + batched throughput → cost."""
     loader, model, tokenizer = load(cfg, adapter)
     loader.for_inference(model)
@@ -230,6 +232,8 @@ def predict(cfg: StudentConfig, adapter: Path | None, system: str) -> dict:
         return render(tokenizer, cfg, messages, add_generation_prompt=True)
 
     val = pd.read_json(cfg.paths.data_dir / "processed" / "silver_val.jsonl", lines=True)
+    if limit:
+        val = val.head(limit * cfg.generation.throughput_batch_size)
     batch = cfg.generation.throughput_batch_size
     start = time.perf_counter()
     for i in range(0, len(val), batch):
@@ -243,6 +247,8 @@ def predict(cfg: StudentConfig, adapter: Path | None, system: str) -> dict:
     }
     for split in ("gold_dev", "gold_test"):
         reviews = pd.read_json(cfg.paths.data_dir / "processed" / f"{split}.jsonl", lines=True)
+        if limit:
+            reviews = reviews.head(limit)
         records = []
         for row in reviews.itertuples():
             t0 = time.perf_counter()

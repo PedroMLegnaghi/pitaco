@@ -266,13 +266,14 @@ def predict_student(
     adapter: Annotated[
         Path | None, typer.Option(help="LoRA adapter dir; omit = base model")
     ] = None,
+    limit: Annotated[int | None, typer.Option(help="smoke test: only N reviews per split")] = None,
 ) -> None:
     """Predict gold dev/test with the student (base model zero-shot if no adapter)."""
     from pitaco.models import sft
 
     cfg = load_config(config, sft.StudentConfig)
     system = cfg.system_name if adapter else f"{cfg.system_name}-base-zeroshot"
-    typer.echo(sft.predict(cfg, adapter, system))
+    typer.echo(sft.predict(cfg, adapter, system, limit))
 
 
 if __name__ == "__main__":

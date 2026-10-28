@@ -85,7 +85,7 @@ def run(cfg: BertConfig) -> dict:
         per_device_train_batch_size=cfg.batch_size,
         per_device_eval_batch_size=64,
         weight_decay=cfg.weight_decay,
-        warmup_ratio=cfg.warmup_ratio,
+        warmup_steps=cfg.warmup_ratio,  # transformers v5: a float < 1 is a fraction of training
         eval_strategy="epoch",
         save_strategy="epoch",
         save_total_limit=1,

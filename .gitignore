@@ -23,3 +23,7 @@ wandb/
 # Notebooks / OS
 .ipynb_checkpoints/
 .DS_Store
+
+# Model weights cache (HF_HOME points here)
+.cache/
+unsloth_compiled_cache/

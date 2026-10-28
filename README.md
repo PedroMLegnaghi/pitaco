@@ -16,8 +16,8 @@ base on a hand-labeled gold set — on quality, cost and latency.
 | Module | State |
 |---|---|
 | M0 setup · M1 data · M2 annotation app | done |
-| M3 teacher labeling · M4 evaluation | code + tests done; not run yet |
-| M5 BERTimbau · M6 student (Unsloth) · Kaggle notebook | drafted; not run yet |
+| M3 teacher labeling · M4 evaluation | done: teacher chosen on dev, 4,000 silver labels, Baseline B on test (API spend so far: $0.45) |
+| M5 BERTimbau · M6 student (Unsloth) · Kaggle notebook | code ready; local smoke test with Qwen3.5-0.8B passed; main runs pending |
 
 ## Reproduce
 

@@ -28,6 +28,7 @@ build-backend = "uv_build"
 
 [tool.ruff]
 line-length = 100
+extend-exclude = ["unsloth_compiled_cache", ".cache", "outputs"]
 target-version = "py311"  # code stays 3.11-compatible for Kaggle images
 
 [tool.ruff.lint]
