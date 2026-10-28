@@ -1,0 +1,159 @@
+{
+  "system": "student-qwen3-4b-qlora-base-zeroshot",
+  "split": "gold_dev",
+  "n_gold": 50,
+  "n_predicted": 50,
+  "valid_json_rate": 0.8,
+  "valid_schema_rate": 0.02,
+  "repaired_rate": 0.0,
+  "usable_rate": 0.02,
+  "grounding_rate": null,
+  "aspect_macro_f1": 0.0,
+  "aspect_micro_f1": 0.0,
+  "joint_macro_f1": 0.0,
+  "joint_micro_f1": 0.0,
+  "sentiment_accuracy_matched": 0.0,
+  "sentiment_macro_f1_matched": 0.0,
+  "kappa_mean": 0.0,
+  "ci95": {
+    "aspect_macro_f1": {
+      "value": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "joint_macro_f1": {
+      "value": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "joint_micro_f1": {
+      "value": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "sentiment_macro_f1_matched": {
+      "value": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    }
+  },
+  "efficiency": {
+    "latency_p50_s": 5.251673557999766,
+    "latency_p95_s": 10.254337396250117,
+    "usd_per_1k_reviews": 0.25088403061033004
+  },
+  "detail": {
+    "detection": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 19,
+          "predicted": 0
+        },
+        "produto": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 30,
+          "predicted": 0
+        },
+        "embalagem": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3,
+          "predicted": 0
+        },
+        "atendimento": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 5,
+          "predicted": 0
+        },
+        "preco": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1,
+          "predicted": 0
+        },
+        "outro": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3,
+          "predicted": 0
+        }
+      },
+      "macro_f1": 0.0,
+      "micro_f1": 0.0
+    },
+    "joint": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 19,
+          "predicted": 0
+        },
+        "produto": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 30,
+          "predicted": 0
+        },
+        "embalagem": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3,
+          "predicted": 0
+        },
+        "atendimento": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 5,
+          "predicted": 0
+        },
+        "preco": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1,
+          "predicted": 0
+        },
+        "outro": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3,
+          "predicted": 0
+        }
+      },
+      "macro_f1": 0.0,
+      "micro_f1": 0.0
+    },
+    "sentiment": {
+      "n": 0,
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    "kappa": {
+      "per_aspect": {
+        "entrega": 0.0,
+        "produto": 0.0,
+        "embalagem": 0.0,
+        "atendimento": 0.0,
+        "preco": 0.0,
+        "outro": 0.0
+      },
+      "mean": 0.0
+    }
+  }
+}

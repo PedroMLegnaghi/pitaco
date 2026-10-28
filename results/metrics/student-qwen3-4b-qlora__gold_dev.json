@@ -1,0 +1,159 @@
+{
+  "system": "student-qwen3-4b-qlora",
+  "split": "gold_dev",
+  "n_gold": 50,
+  "n_predicted": 50,
+  "valid_json_rate": 1.0,
+  "valid_schema_rate": 1.0,
+  "repaired_rate": 0.0,
+  "usable_rate": 1.0,
+  "grounding_rate": 1.0,
+  "aspect_macro_f1": 0.9108058608058608,
+  "aspect_micro_f1": 0.9365079365079365,
+  "joint_macro_f1": 0.9022588522588523,
+  "joint_micro_f1": 0.9206349206349206,
+  "sentiment_accuracy_matched": 0.9830508474576272,
+  "sentiment_macro_f1_matched": 0.8839137645107794,
+  "kappa_mean": 0.8911086976324231,
+  "ci95": {
+    "aspect_macro_f1": {
+      "value": 0.9108058608058608,
+      "ci_low": 0.7332936507936507,
+      "ci_high": 0.9726498414256433
+    },
+    "joint_macro_f1": {
+      "value": 0.9022588522588523,
+      "ci_low": 0.724413377901768,
+      "ci_high": 0.9645116249586024
+    },
+    "joint_micro_f1": {
+      "value": 0.9206349206349206,
+      "ci_low": 0.859504132231405,
+      "ci_high": 0.9705988917306053
+    },
+    "sentiment_macro_f1_matched": {
+      "value": 0.8839137645107794,
+      "ci_low": 0.6521630975556998,
+      "ci_high": 1.0
+    }
+  },
+  "efficiency": {
+    "latency_p50_s": 3.743046568000409,
+    "latency_p95_s": 5.966631616699942,
+    "usd_per_1k_reviews": 0.1367133736682289
+  },
+  "detail": {
+    "detection": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.95,
+          "recall": 1.0,
+          "f1": 0.9743589743589743,
+          "support": 19,
+          "predicted": 20
+        },
+        "produto": {
+          "precision": 0.9666666666666667,
+          "recall": 0.9666666666666667,
+          "f1": 0.9666666666666667,
+          "support": 30,
+          "predicted": 30
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.5714285714285714,
+          "recall": 0.8,
+          "f1": 0.6666666666666666,
+          "support": 5,
+          "predicted": 7
+        },
+        "preco": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1,
+          "predicted": 1
+        },
+        "outro": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571428571428571,
+          "support": 3,
+          "predicted": 4
+        }
+      },
+      "macro_f1": 0.9108058608058608,
+      "micro_f1": 0.9365079365079365
+    },
+    "joint": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.9,
+          "recall": 0.9473684210526315,
+          "f1": 0.9230769230769231,
+          "support": 19,
+          "predicted": 20
+        },
+        "produto": {
+          "precision": 0.9666666666666667,
+          "recall": 0.9666666666666667,
+          "f1": 0.9666666666666667,
+          "support": 30,
+          "predicted": 30
+        },
+        "embalagem": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 3,
+          "predicted": 3
+        },
+        "atendimento": {
+          "precision": 0.5714285714285714,
+          "recall": 0.8,
+          "f1": 0.6666666666666666,
+          "support": 5,
+          "predicted": 7
+        },
+        "preco": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1,
+          "predicted": 1
+        },
+        "outro": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571428571428571,
+          "support": 3,
+          "predicted": 4
+        }
+      },
+      "macro_f1": 0.9022588522588523,
+      "micro_f1": 0.9206349206349206
+    },
+    "sentiment": {
+      "n": 59,
+      "accuracy": 0.9830508474576272,
+      "macro_f1": 0.8839137645107794
+    },
+    "kappa": {
+      "per_aspect": {
+        "entrega": 0.9289267945984363,
+        "produto": 0.9371069182389936,
+        "embalagem": 1.0,
+        "atendimento": 0.6316758747697975,
+        "preco": 1.0,
+        "outro": 0.848942598187311
+      },
+      "mean": 0.8911086976324231
+    }
+  }
+}

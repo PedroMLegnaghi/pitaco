@@ -1,3 +1,5 @@
 2026-10-28T14:47:59+00:00	teacher-deepseek-v4.1-flash-fewshot-v2
 2026-10-28T14:48:06+00:00	teacher-deepseek-v4.1-flash-zeroshot-v2
 2026-10-28T16:16:24+00:00	bertimbau
+2026-10-28T20:39:00+00:00	student-qwen3-4b-qlora-base-zeroshot
+2026-10-28T20:39:09+00:00	student-qwen3-4b-qlora

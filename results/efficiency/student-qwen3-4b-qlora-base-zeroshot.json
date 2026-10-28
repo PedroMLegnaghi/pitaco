@@ -1,0 +1,6 @@
+{
+  "throughput_reviews_per_s": 0.38751857575672716,
+  "usd_per_1k_reviews": 0.25088403061033004,
+  "gold_dev": 50,
+  "gold_test": 250
+}
