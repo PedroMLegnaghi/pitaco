@@ -15,11 +15,28 @@ ASPECTS: tuple[str, ...] = get_args(Aspect)
 SENTIMENTS: tuple[str, ...] = get_args(Sentiment)
 
 
-class AspectMention(BaseModel):
+def _check_unique_aspects[M: "GoldMention"](mentions: list[M]) -> list[M]:
+    # Annotation rule: an aspect gets a single, dominant polarity per review.
+    # This keeps every metric a clean per-aspect comparison.
+    seen = [m.aspecto for m in mentions]
+    duplicates = sorted({a for a in seen if seen.count(a) > 1})
+    if duplicates:
+        raise ValueError(f"aspect listed more than once: {', '.join(duplicates)}")
+    return mentions
+
+
+class GoldMention(BaseModel):
+    """A hand label: aspect + sentiment only (evidence is scored automatically, not annotated)."""
+
     model_config = ConfigDict(extra="forbid")
 
     aspecto: Aspect
     sentimento: Sentiment
+
+
+class AspectMention(GoldMention):
+    model_config = ConfigDict(extra="forbid")
+
     evidencia: str = Field(min_length=1, description="Verbatim excerpt from the review")
 
 
@@ -32,14 +49,27 @@ class ReviewAnalysis(BaseModel):
     @field_validator("aspectos")
     @classmethod
     def one_entry_per_aspect(cls, mentions: list[AspectMention]) -> list[AspectMention]:
-        # Annotation rule: an aspect gets a single, dominant polarity per review.
-        # This keeps every metric a clean per-aspect comparison.
-        seen = [m.aspecto for m in mentions]
-        duplicates = sorted({a for a in seen if seen.count(a) > 1})
-        if duplicates:
-            raise ValueError(f"aspect listed more than once: {', '.join(duplicates)}")
-        return mentions
+        return _check_unique_aspects(mentions)
 
     def pairs(self) -> set[tuple[str, str]]:
         """(aspect, sentiment) pairs — the unit the metrics compare."""
+        return {(m.aspecto, m.sentimento) for m in self.aspectos}
+
+
+class GoldAnnotation(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    review_id: str
+    aspectos: list[GoldMention]
+    difficult: bool = False
+    note: str = ""
+    annotator: str
+    labeled_at: str
+
+    @field_validator("aspectos")
+    @classmethod
+    def one_entry_per_aspect(cls, mentions: list[GoldMention]) -> list[GoldMention]:
+        return _check_unique_aspects(mentions)
+
+    def pairs(self) -> set[tuple[str, str]]:
         return {(m.aspecto, m.sentimento) for m in self.aspectos}

@@ -13,6 +13,7 @@ __pycache__/
 data/*
 !data/README.md
 !data/splits/
+!data/annotations/
 outputs/
 wandb/
 *.gguf

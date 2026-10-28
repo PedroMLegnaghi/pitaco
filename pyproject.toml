@@ -36,6 +36,9 @@ testpaths = ["tests"]
 addopts = "-q"
 
 [dependency-groups]
+app = [
+    "gradio>=6.31.0",
+]
 dev = [
     "pytest>=9.2.0",
     "ruff>=0.17.3",

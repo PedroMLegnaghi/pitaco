@@ -78,5 +78,26 @@ def data(
     typer.echo(f"splits: {manifest['splits']}")
 
 
+@app.command("annotate")
+def annotate(
+    split: Annotated[str, typer.Option(help="gold split to label: dev or test")] = "dev",
+    annotator: Annotated[str, typer.Option(help="who is labeling")] = "pedro",
+    port: Annotated[int, typer.Option(help="local port")] = 7860,
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/base.yaml"),
+) -> None:
+    """Launch the local, blind labeling app (needs the `app` dependency group)."""
+    from pitaco.labeling.annotate_app import build_app
+
+    if split not in {"dev", "test"}:
+        raise typer.BadParameter("split must be dev or test")
+    cfg = load_config(config)
+    reviews = cfg.paths.data_dir / "processed" / f"gold_{split}.jsonl"
+    labels = cfg.paths.data_dir / "annotations" / f"gold_{split}.jsonl"
+    typer.echo(f"labeling {reviews} → {labels}")
+    build_app(reviews, labels, cfg.seed, annotator).launch(
+        server_name="127.0.0.1", server_port=port, share=False, inbrowser=True
+    )
+
+
 if __name__ == "__main__":
     app()
