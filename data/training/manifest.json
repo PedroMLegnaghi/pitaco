@@ -1,0 +1,19 @@
+{
+  "source": "results/predictions/teacher-deepseek-v4.1-flash-fewshot-v2",
+  "silver_train": {
+    "reviews": 3600,
+    "predicted": 3600,
+    "kept": 3517
+  },
+  "silver_val": {
+    "reviews": 400,
+    "predicted": 400,
+    "kept": 392
+  },
+  "files": {
+    "all": 3517,
+    "n500": 500,
+    "n1500": 1500,
+    "val": 392
+  }
+}

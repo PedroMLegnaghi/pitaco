@@ -1,16 +1,16 @@
-# GPU stack for Kaggle T4 notebooks. Latest releases on PyPI as of 2026-10-28.
-# NOT yet verified together: re-pin to the exact versions that work after the first run.
-# torch comes from the Kaggle image (Unsloth will report if it needs a different build).
+# GPU stack for Kaggle T4 notebooks — exact versions from uv.lock (group `train`), resolved
+# by uv with Unsloth's own constraints on 2026-10-28. Keep in sync with: uv export --group train
 unsloth==2026.10.9
-unsloth_zoo==2026.10.9
-transformers==5.21.0
-trl==1.16.0
+unsloth-zoo==2026.10.9
+torch==2.14.1
+transformers==5.17.0
+trl==1.15.0
 peft==0.21.2
 bitsandbytes==0.50.2
 accelerate==1.15.0
-datasets==5.1.0
+datasets==4.8.5
 wandb==0.31.0
-# pitaco's own runtime deps (installed with --no-deps below)
+# pitaco's own runtime deps (the package itself is installed with --no-deps)
 pydantic>=2.14
 pyyaml>=6.0
 typer>=0.27

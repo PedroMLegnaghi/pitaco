@@ -48,3 +48,11 @@ dev = [
     "pytest>=9.2.0",
     "ruff>=0.17.3",
 ]
+train = [
+    "unsloth==2026.10.9",
+    "unsloth-zoo==2026.10.9",
+    "wandb==0.31.0",
+]
+
+[tool.uv]
+environments = ["sys_platform == 'linux'"]  # laptop, CI, Kaggle and Spaces are all Linux

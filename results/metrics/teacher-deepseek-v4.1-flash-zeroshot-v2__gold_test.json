@@ -1,0 +1,159 @@
+{
+  "system": "teacher-deepseek-v4.1-flash-zeroshot-v2",
+  "split": "gold_test",
+  "n_gold": 250,
+  "n_predicted": 250,
+  "valid_json_rate": 1.0,
+  "valid_schema_rate": 0.956,
+  "repaired_rate": 0.02,
+  "usable_rate": 0.976,
+  "grounding_rate": 1.0,
+  "aspect_macro_f1": 0.7571758492016883,
+  "aspect_micro_f1": 0.8972503617945007,
+  "joint_macro_f1": 0.7394720796870536,
+  "joint_micro_f1": 0.8769898697539799,
+  "sentiment_accuracy_matched": 0.9774193548387097,
+  "sentiment_macro_f1_matched": 0.7867530565602325,
+  "kappa_mean": 0.7247468851888316,
+  "ci95": {
+    "aspect_macro_f1": {
+      "value": 0.7571758492016883,
+      "ci_low": 0.7034913750585536,
+      "ci_high": 0.8053510474306165
+    },
+    "joint_macro_f1": {
+      "value": 0.7394720796870536,
+      "ci_low": 0.6821776578803378,
+      "ci_high": 0.7919214174396082
+    },
+    "joint_micro_f1": {
+      "value": 0.8769898697539799,
+      "ci_low": 0.8499297695733449,
+      "ci_high": 0.9053269510693092
+    },
+    "sentiment_macro_f1_matched": {
+      "value": 0.7867530565602325,
+      "ci_low": 0.6453672228314854,
+      "ci_high": 0.9926489827111432
+    }
+  },
+  "efficiency": {
+    "latency_p50_s": 1.0290890849937568,
+    "latency_p95_s": 2.367385731043031,
+    "usd_per_1k_reviews": 0.07262402496
+  },
+  "detail": {
+    "detection": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 1.0,
+          "recall": 0.9722222222222222,
+          "f1": 0.9859154929577464,
+          "support": 144,
+          "predicted": 140
+        },
+        "produto": {
+          "precision": 0.9745762711864406,
+          "recall": 0.905511811023622,
+          "f1": 0.9387755102040816,
+          "support": 127,
+          "predicted": 118
+        },
+        "embalagem": {
+          "precision": 0.9473684210526315,
+          "recall": 0.9473684210526315,
+          "f1": 0.9473684210526315,
+          "support": 19,
+          "predicted": 19
+        },
+        "atendimento": {
+          "precision": 0.43478260869565216,
+          "recall": 0.8333333333333334,
+          "f1": 0.5714285714285714,
+          "support": 24,
+          "predicted": 46
+        },
+        "preco": {
+          "precision": 0.9375,
+          "recall": 0.8823529411764706,
+          "f1": 0.9090909090909091,
+          "support": 17,
+          "predicted": 16
+        },
+        "outro": {
+          "precision": 0.14285714285714285,
+          "recall": 0.2857142857142857,
+          "f1": 0.19047619047619047,
+          "support": 7,
+          "predicted": 14
+        }
+      },
+      "macro_f1": 0.7571758492016883,
+      "micro_f1": 0.8972503617945007
+    },
+    "joint": {
+      "per_aspect": {
+        "entrega": {
+          "precision": 0.9785714285714285,
+          "recall": 0.9513888888888888,
+          "f1": 0.9647887323943661,
+          "support": 144,
+          "predicted": 140
+        },
+        "produto": {
+          "precision": 0.9491525423728814,
+          "recall": 0.8818897637795275,
+          "f1": 0.9142857142857144,
+          "support": 127,
+          "predicted": 118
+        },
+        "embalagem": {
+          "precision": 0.9473684210526315,
+          "recall": 0.9473684210526315,
+          "f1": 0.9473684210526315,
+          "support": 19,
+          "predicted": 19
+        },
+        "atendimento": {
+          "precision": 0.43478260869565216,
+          "recall": 0.8333333333333334,
+          "f1": 0.5714285714285714,
+          "support": 24,
+          "predicted": 46
+        },
+        "preco": {
+          "precision": 0.875,
+          "recall": 0.8235294117647058,
+          "f1": 0.8484848484848485,
+          "support": 17,
+          "predicted": 16
+        },
+        "outro": {
+          "precision": 0.14285714285714285,
+          "recall": 0.2857142857142857,
+          "f1": 0.19047619047619047,
+          "support": 7,
+          "predicted": 14
+        }
+      },
+      "macro_f1": 0.7394720796870536,
+      "micro_f1": 0.8769898697539799
+    },
+    "sentiment": {
+      "n": 310,
+      "accuracy": 0.9774193548387097,
+      "macro_f1": 0.7867530565602325
+    },
+    "kappa": {
+      "per_aspect": {
+        "entrega": 0.9568838080220754,
+        "produto": 0.8838649736760607,
+        "embalagem": 0.9441590350681259,
+        "atendimento": 0.5244737509510525,
+        "preco": 0.8721064074689857,
+        "outro": 0.16699333594668858
+      },
+      "mean": 0.7247468851888316
+    }
+  }
+}
