@@ -13,6 +13,7 @@ Key choices (see docs/PLAN.md):
 """
 
 import json
+import os
 import time
 from pathlib import Path
 from typing import Literal
@@ -129,6 +130,7 @@ def train(cfg: StudentConfig) -> dict:
     from unsloth.chat_templates import train_on_responses_only
 
     set_seed(cfg.seed)
+    os.environ.setdefault("WANDB_PROJECT", cfg.wandb.project)  # W&B project for this run
     loader, model, tokenizer = load(cfg)
     peft_kwargs = dict(
         r=cfg.lora.r,

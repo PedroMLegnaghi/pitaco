@@ -7,6 +7,7 @@ predicted in the common format with label-only mentions (BERT produces no eviden
 a capability gap the comparison table shows explicitly).
 """
 
+import os
 import time
 from pathlib import Path
 
@@ -53,6 +54,7 @@ def run(cfg: BertConfig) -> dict:
     )
 
     set_seed(cfg.seed)
+    os.environ.setdefault("WANDB_PROJECT", cfg.wandb.project)  # W&B project for this run
     files = {
         "train": str(cfg.training_dir / f"train_{cfg.train_set}" / "bert.jsonl"),
         "val": str(cfg.training_dir / "val" / "bert.jsonl"),
