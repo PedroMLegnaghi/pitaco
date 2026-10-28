@@ -73,6 +73,7 @@ class StudentConfig(BaseConfig):
     training_dir: Path = Path("data/training")
     instruction_part: str = "<|im_start|>user\n"
     response_part: str = "<|im_start|>assistant\n"
+    end_of_turn: str = "<|im_end|>\n"  # appended after the target; teaches the model to stop
     chat_template_kwargs: dict = Field(default_factory=lambda: {"enable_thinking": False})
     lora: LoraConfig = LoraConfig()
     train: TrainConfig = TrainConfig()
@@ -111,6 +112,23 @@ def render(tokenizer, cfg: StudentConfig, messages: list[dict], add_generation_p
         add_generation_prompt=add_generation_prompt,
         **cfg.chat_template_kwargs,
     )
+
+
+def training_text(tokenizer, cfg: StudentConfig, messages: list[dict]) -> str:
+    """Training example = EXACT inference prompt + target JSON + end-of-turn marker.
+
+    Rendering the full conversation with the chat template is not safe: some templates (Unsloth's
+    Qwen3) insert an empty <think></think> block into completed assistant turns but not into the
+    generation prompt, so the model would learn a prefix it never sees at inference time.
+    Building the text this way makes training and inference identical by construction.
+    """
+    *prompt_messages, answer = messages
+    if answer["role"] != "assistant":
+        raise ValueError("last message must be the assistant target")
+    prompt = render(tokenizer, cfg, prompt_messages, add_generation_prompt=True)
+    if not prompt.endswith(cfg.response_part):
+        raise ValueError(f"prompt does not end with response_part {cfg.response_part!r}")
+    return f"{prompt}{answer['content']}{cfg.end_of_turn}"
 
 
 def load(cfg: StudentConfig, adapter: Path | None = None):
@@ -157,9 +175,10 @@ def train(cfg: StudentConfig) -> dict:
         "val": str(cfg.training_dir / "val" / "sft.jsonl"),
     }
     ds = load_dataset("json", data_files=files)
-    ds = ds.map(
-        lambda ex: {"text": render(tokenizer, cfg, ex["messages"], add_generation_prompt=False)}
-    )
+    ds = ds.map(lambda ex: {"text": training_text(tokenizer, cfg, ex["messages"])})
+    target = ds["train"][0]["text"].rsplit(cfg.response_part, 1)[-1]
+    if "<think>" in target or not target.lstrip().startswith("{"):
+        raise ValueError(f"training target does not start with the JSON: {target[:80]!r}")
 
     t = cfg.train
     trainer = SFTTrainer(
@@ -205,17 +224,6 @@ def train(cfg: StudentConfig) -> dict:
     return {"adapter": str(adapter_dir), "train_runtime_s": stats.metrics.get("train_runtime")}
 
 
-# Chat markup the student must never emit: our output is plain JSON. Qwen models are trained to
-# wrap answers in <think>/<tool_call> blocks, and a lightly fine-tuned model sometimes still starts
-# with them; forbidding these tokens at decoding time is a safe, schema-preserving constraint.
-FORBIDDEN_MARKUP = ("<think>", "</think>", "<tool_call>", "</tool_call>")
-
-
-def _forbidden_ids(tok) -> list[list[int]]:
-    vocab = tok.get_vocab()
-    return [[vocab[t]] for t in FORBIDDEN_MARKUP if t in vocab]
-
-
 def _generate(model, tokenizer, cfg: StudentConfig, prompts: list[str]) -> list[str]:
     import torch
 
@@ -229,7 +237,6 @@ def _generate(model, tokenizer, cfg: StudentConfig, prompts: list[str]) -> list[
             **enc,
             max_new_tokens=cfg.generation.max_new_tokens,
             do_sample=False,
-            bad_words_ids=_forbidden_ids(tok) or None,
         )
     new_tokens = out[:, enc["input_ids"].shape[1] :]
     return [t.strip() for t in tok.batch_decode(new_tokens, skip_special_tokens=True)]

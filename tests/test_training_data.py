@@ -124,3 +124,36 @@ def test_keep_rule(valid, grounded, expected):
     text = "chegou" if grounded else "nada a ver"
     raw = json.dumps(out) if valid else "x"
     assert keep(record_from_raw("r", "s", raw, text)) is expected
+
+
+class _FakeTemplateTokenizer:
+    """Mimics Unsloth's Qwen3 template quirk: completed assistant turns get an empty think block."""
+
+    def apply_chat_template(self, messages, tokenize, add_generation_prompt, **kwargs):
+        out = ""
+        for m in messages:
+            body = m["content"]
+            if m["role"] == "assistant":
+                body = "<think>\n\n</think>\n\n" + body
+            out += f"<|im_start|>{m['role']}\n{body}<|im_end|>\n"
+        if add_generation_prompt:
+            out += "<|im_start|>assistant\n"
+        return out
+
+
+def test_training_text_equals_inference_prompt_plus_target():
+    from pitaco.models.sft import StudentConfig, render, training_text
+
+    cfg = StudentConfig(
+        project="p", budget={"max_usd": 1}, base_model="x", loader="language", system_name="s"
+    )
+    tok = _FakeTemplateTokenizer()
+    msgs = [
+        {"role": "system", "content": "instr"},
+        {"role": "user", "content": "Avaliação: chegou"},
+        {"role": "assistant", "content": '{"aspectos":[],"resumo":"ok"}'},
+    ]
+    text = training_text(tok, cfg, msgs)
+    prompt = render(tok, cfg, msgs[:2], add_generation_prompt=True)
+    assert text == prompt + '{"aspectos":[],"resumo":"ok"}<|im_end|>\n'
+    assert "<think>" not in text  # the template quirk cannot leak into the target
