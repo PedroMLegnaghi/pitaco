@@ -1,0 +1,15 @@
+# Settings shared by every stage. Stage configs (data.yaml, teacher.yaml, ...) are added per module.
+project: pitaco
+seed: 42
+
+paths:
+  data_dir: data
+  results_dir: results
+
+wandb:
+  project: pitaco
+  entity: null      # your W&B username; null = default entity
+  mode: online      # online | offline | disabled
+
+budget:
+  max_usd: 4.0      # hard cap on API spend (leaves ~US$1 margin of the US$5)

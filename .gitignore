@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Secrets
+.env
+
+# Data and model artifacts (published to the HF Hub, not git)
+data/*
+!data/README.md
+outputs/
+wandb/
+*.gguf
+*.safetensors
+
+# Notebooks / OS
+.ipynb_checkpoints/
+.DS_Store
