@@ -28,10 +28,13 @@ build-backend = "uv_build"
 
 [tool.ruff]
 line-length = 100
-target-version = "py312"
+target-version = "py311"  # code stays 3.11-compatible for Kaggle images
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["E501"]  # shell commands in notebook cells
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

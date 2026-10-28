@@ -1,0 +1,11 @@
+extends: base.yaml
+
+model_name: neuralmind/bert-base-portuguese-cased
+train_set: all          # all | n500 | n1500
+max_length: 128
+learning_rate: 3.0e-5
+epochs: 6
+batch_size: 16          # fits the RTX 3050 (6 GB) in fp16 at 128 tokens
+early_stopping_patience: 2
+output_dir: outputs/bertimbau
+system_name: bertimbau

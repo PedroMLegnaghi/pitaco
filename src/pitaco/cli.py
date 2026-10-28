@@ -186,5 +186,70 @@ def report_cmd(
     typer.echo(report(load_config(config).paths.results_dir, split))
 
 
+@app.command("build-training-data")
+def build_training_data(
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/training_data.yaml"),
+) -> None:
+    """Filter teacher silver labels and write SFT + BERT training files (incl. ablation subsets)."""
+    import json
+
+    from pitaco.config import BaseConfig
+    from pitaco.models.training_data import build
+
+    class TrainingDataConfig(BaseConfig):
+        teacher_system: str
+        prompts_dir: Path
+        student_prompt_version: str
+        ablation_sizes: list[int]
+        out_dir: Path
+
+    cfg = load_config(config, TrainingDataConfig)
+    report = build(
+        cfg.paths.results_dir / "predictions" / cfg.teacher_system,
+        cfg.paths.data_dir / "processed",
+        cfg.out_dir,
+        cfg.prompts_dir,
+        cfg.student_prompt_version,
+        cfg.ablation_sizes,
+        cfg.seed,
+    )
+    typer.echo(json.dumps(report, indent=2))
+
+
+@app.command("train-bert")
+def train_bert(
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/bertimbau.yaml"),
+) -> None:
+    """Train the BERTimbau baseline and predict gold dev/test (needs the `train` group)."""
+    from pitaco.models import bertimbau
+
+    typer.echo(bertimbau.run(load_config(config, bertimbau.BertConfig)))
+
+
+@app.command("train-student")
+def train_student(
+    config: Annotated[Path, typer.Option(help="Config file")],
+) -> None:
+    """LoRA fine-tuning of the student LLM (GPU; needs the `train` group)."""
+    from pitaco.models import sft
+
+    typer.echo(sft.train(load_config(config, sft.StudentConfig)))
+
+
+@app.command("predict-student")
+def predict_student(
+    config: Annotated[Path, typer.Option(help="Config file")],
+    adapter: Annotated[
+        Path | None, typer.Option(help="LoRA adapter dir; omit = base model")
+    ] = None,
+) -> None:
+    """Predict gold dev/test with the student (base model zero-shot if no adapter)."""
+    from pitaco.models import sft
+
+    cfg = load_config(config, sft.StudentConfig)
+    system = cfg.system_name if adapter else f"{cfg.system_name}-base-zeroshot"
+    typer.echo(sft.predict(cfg, adapter, system))
+
+
 if __name__ == "__main__":
     app()

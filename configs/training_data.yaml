@@ -1,0 +1,8 @@
+extends: base.yaml
+
+# Teacher run whose silver labels become training data (chosen after the dev bake-off).
+teacher_system: teacher-deepseek-v4.1-flash-fewshot-v1
+prompts_dir: prompts
+student_prompt_version: v1
+ablation_sizes: [500, 1500]   # nested, star-stratified; "all" (~3,600) is always built
+out_dir: data/training

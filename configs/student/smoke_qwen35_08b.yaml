@@ -1,0 +1,16 @@
+# Local smoke test — RTX 3050 (6 GB). Same code path, tiny model, 30 steps, no W&B.
+extends: ../base.yaml
+
+base_model: Qwen/Qwen3.5-0.8B
+loader: vision
+load_in_4bit: false
+max_seq_length: 512
+wandb: {mode: disabled}
+train:
+  train_set: n500
+  batch_size: 4
+  grad_accum: 1
+  eval_steps: 15
+  max_steps: 30
+output_dir: outputs/smoke
+system_name: smoke-qwen35-08b

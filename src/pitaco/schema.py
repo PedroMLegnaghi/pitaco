@@ -15,7 +15,7 @@ ASPECTS: tuple[str, ...] = get_args(Aspect)
 SENTIMENTS: tuple[str, ...] = get_args(Sentiment)
 
 
-def _check_unique_aspects[M: "GoldMention"](mentions: list[M]) -> list[M]:
+def _check_unique_aspects(mentions: list) -> list:
     # Annotation rule: an aspect gets a single, dominant polarity per review.
     # This keeps every metric a clean per-aspect comparison.
     seen = [m.aspecto for m in mentions]

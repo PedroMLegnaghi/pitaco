@@ -6,7 +6,7 @@ from pathlib import Path
 from pydantic import BaseModel, ConfigDict
 
 from pitaco.parsing import parse_output
-from pitaco.schema import ReviewAnalysis
+from pitaco.schema import GoldMention, ReviewAnalysis
 
 
 class PredictionRecord(BaseModel):
@@ -16,6 +16,8 @@ class PredictionRecord(BaseModel):
     system: str
     raw: str | None  # exact model output; None for classifiers that emit labels directly
     analysis: ReviewAnalysis | None
+    # Label-only systems (BERTimbau) emit no JSON, evidence or summary — only aspect + sentiment.
+    mentions: list[GoldMention] | None = None
     valid_json: bool
     valid_schema: bool
     n_evidence: int = 0
@@ -27,7 +29,9 @@ class PredictionRecord(BaseModel):
     error: str | None = None
 
     def pairs(self) -> set[tuple[str, str]]:
-        return self.analysis.pairs() if self.analysis else set()
+        if self.analysis is not None:
+            return self.analysis.pairs()
+        return {(m.aspecto, m.sentimento) for m in self.mentions or []}
 
 
 def record_from_raw(

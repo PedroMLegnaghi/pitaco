@@ -1,0 +1,15 @@
+{
+  "id": "KAGGLE_USERNAME/pitaco-student-qwen35-4b",
+  "title": "Pitaco: Qwen3.5-4B LoRA for Portuguese ABSA",
+  "code_file": "student_training.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "olistbr/brazilian-ecommerce"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

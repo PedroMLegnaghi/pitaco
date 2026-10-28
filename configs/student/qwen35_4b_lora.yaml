@@ -1,0 +1,17 @@
+# Main run — Kaggle T4 (16 GB). 16-bit LoRA (~10 GB per Unsloth's Qwen3.5 guide).
+extends: ../base.yaml
+
+base_model: Qwen/Qwen3.5-4B
+loader: vision
+load_in_4bit: false
+max_seq_length: 512
+lora: {r: 16, alpha: 32, dropout: 0.0}
+train:
+  train_set: all
+  epochs: 2
+  learning_rate: 2.0e-4
+  batch_size: 8
+  grad_accum: 2
+  eval_steps: 50
+output_dir: outputs/student-qwen35-4b
+system_name: student-qwen35-4b-lora

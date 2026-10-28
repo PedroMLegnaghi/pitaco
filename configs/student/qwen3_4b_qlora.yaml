@@ -1,0 +1,12 @@
+# Fallback if Qwen3.5 tooling blocks: plain text-only transformer, QLoRA (4-bit base).
+extends: ../base.yaml
+
+base_model: Qwen/Qwen3-4B-Instruct-2507
+loader: language
+load_in_4bit: true
+max_seq_length: 512
+chat_template_kwargs: {}
+lora: {r: 16, alpha: 32, dropout: 0.0}
+train: {train_set: all, epochs: 2, learning_rate: 2.0e-4, batch_size: 8, grad_accum: 2}
+output_dir: outputs/student-qwen3-4b
+system_name: student-qwen3-4b-qlora

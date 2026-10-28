@@ -6,7 +6,7 @@ such as `sede: 42` into an immediate error instead of a silently ignored setting
 """
 
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, TypeVar
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
@@ -61,5 +61,8 @@ def load_yaml(path: str | Path) -> dict[str, Any]:
     return deep_merge(load_yaml(path.parent / parent), data)
 
 
-def load_config[ConfigT: BaseModel](path: str | Path, model: type[ConfigT] = BaseConfig) -> ConfigT:
+ConfigT = TypeVar("ConfigT", bound=BaseModel)
+
+
+def load_config(path: str | Path, model: type[ConfigT] = BaseConfig) -> ConfigT:  # noqa: UP047
     return model.model_validate(load_yaml(path))
