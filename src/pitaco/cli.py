@@ -99,5 +99,92 @@ def annotate(
     )
 
 
+@app.command("label")
+def label(
+    model: Annotated[str, typer.Option(help="model key from configs/teacher.yaml")],
+    split: Annotated[str, typer.Option(help="gold_dev | gold_test | silver_train | silver_val")],
+    mode: Annotated[str, typer.Option(help="fewshot | zeroshot")] = "fewshot",
+    limit: Annotated[int | None, typer.Option(help="only the first N reviews")] = None,
+    execute: Annotated[bool, typer.Option("--execute", help="actually call the API")] = False,
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/teacher.yaml"),
+) -> None:
+    """Label a split with a teacher LLM. Without --execute: cost estimate only, no API call."""
+    import json
+
+    from pitaco.labeling import teacher
+
+    if mode not in {"fewshot", "zeroshot"}:
+        raise typer.BadParameter("mode must be fewshot or zeroshot")
+    cfg = load_config(config, teacher.TeacherConfig)
+    if model not in cfg.models:
+        raise typer.BadParameter(f"unknown model; choose from {sorted(cfg.models)}")
+    teacher.check_fewshot_not_in_gold(cfg)
+    typer.echo(json.dumps(teacher.estimate(cfg, model, mode, split, limit), indent=2))
+    if not execute:
+        typer.echo("dry run — nothing was sent. Re-run with --execute to call the API.")
+        return
+    typer.echo(json.dumps(teacher.run(cfg, model, mode, split, limit), indent=2))
+
+
+@app.command("evaluate")
+def evaluate_cmd(
+    predictions: Annotated[Path, typer.Option(help="predictions JSONL")],
+    split: Annotated[str, typer.Option(help="gold_dev | gold_test")],
+    system: Annotated[str | None, typer.Option(help="name in the results table")] = None,
+    n_boot: Annotated[int, typer.Option(help="bootstrap resamples")] = 1000,
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/base.yaml"),
+) -> None:
+    """Score predictions against the gold labels (writes results/metrics/<system>__<split>.json)."""
+    from pitaco.eval.evaluate import run_evaluation
+
+    cfg = load_config(config)
+    name = system or predictions.parent.name
+    r = run_evaluation(
+        predictions,
+        cfg.paths.data_dir / "annotations",
+        cfg.paths.results_dir,
+        split,
+        name,
+        n_boot,
+        cfg.seed,
+    )
+    ci = r["ci95"]["aspect_macro_f1"]
+    typer.echo(
+        f"{name} on {split}: valid {r['valid_schema_rate']:.1%} · aspect macro-F1 "
+        f"{r['aspect_macro_f1']:.3f} [{ci['ci_low']:.3f}, {ci['ci_high']:.3f}] · "
+        f"joint macro-F1 {r['joint_macro_f1']:.3f} · kappa {r['kappa_mean']:.3f}"
+    )
+
+
+@app.command("compare")
+def compare_cmd(
+    a: Annotated[Path, typer.Option(help="predictions JSONL of system A")],
+    b: Annotated[Path, typer.Option(help="predictions JSONL of system B")],
+    split: Annotated[str, typer.Option(help="gold_dev | gold_test")],
+    metric: Annotated[str, typer.Option(help="metric name")] = "joint_macro_f1",
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/base.yaml"),
+) -> None:
+    """Paired bootstrap: is A really better than B on the same reviews?"""
+    import json
+
+    from pitaco.eval.evaluate import compare
+
+    cfg = load_config(config)
+    typer.echo(
+        json.dumps(compare(a, b, cfg.paths.data_dir / "annotations", split, metric), indent=2)
+    )
+
+
+@app.command("report")
+def report_cmd(
+    split: Annotated[str, typer.Option(help="gold_dev | gold_test")] = "gold_test",
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/base.yaml"),
+) -> None:
+    """Build results/comparison_<split>.md from all evaluated systems."""
+    from pitaco.eval.evaluate import report
+
+    typer.echo(report(load_config(config).paths.results_dir, split))
+
+
 if __name__ == "__main__":
     app()

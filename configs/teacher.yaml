@@ -1,0 +1,36 @@
+extends: base.yaml
+
+prompts_dir: prompts
+prompt_version: v1
+temperature: 0.0          # deterministic-as-possible labels
+max_tokens: 400           # caps the cost of a single runaway answer
+concurrency: 8
+timeout_s: 60
+response_format: json_schema   # json_schema | json_object | none
+fuzzy_threshold: 90
+cache_path: data/cache/llm_responses.jsonl   # also the spend ledger
+
+# Open-weight candidates (licenses verified on the HF model cards, 2026-10-28).
+# Prices: OpenRouter list prices per 1M tokens on 2026-10-28; dated snapshots pin the version.
+models:
+  deepseek-v4.1-flash:
+    id: deepseek/deepseek-v4.1-flash-1017
+    input_per_m: 0.15
+    output_per_m: 0.60
+    cache_read_per_m: 0.003
+    reasoning: {effort: none}       # thinking is ON by default (effort "high") — must disable
+    license: MIT
+  deepseek-v4-pro:
+    id: deepseek/deepseek-v4-pro-0813
+    input_per_m: 0.66
+    output_per_m: 1.98
+    cache_read_per_m: 0.022
+    reasoning: {effort: none}
+    license: MIT
+  qwen3.5-397b:
+    id: qwen/qwen3.5-397b-a17b
+    input_per_m: 0.50
+    output_per_m: 3.60
+    cache_read_per_m: 0.30
+    reasoning: {enabled: false}
+    license: Apache-2.0

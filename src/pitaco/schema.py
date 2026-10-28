@@ -73,3 +73,25 @@ class GoldAnnotation(BaseModel):
 
     def pairs(self) -> set[tuple[str, str]]:
         return {(m.aspecto, m.sentimento) for m in self.aspectos}
+
+
+def strict_json_schema() -> dict:
+    """JSON schema of `ReviewAnalysis` for constrained decoding (`response_format: json_schema`).
+
+    Inlines `$defs` (several providers reject `$ref`) and drops keywords that strict modes commonly
+    refuse (`title`, `minLength`). Enums and `additionalProperties: false` are kept — they are what
+    makes constrained decoding useful here.
+    """
+    schema = ReviewAnalysis.model_json_schema()
+    defs = schema.pop("$defs", {})
+
+    def resolve(node):
+        if isinstance(node, dict):
+            if "$ref" in node:
+                return resolve(defs[node["$ref"].rsplit("/", 1)[-1]])
+            return {k: resolve(v) for k, v in node.items() if k not in ("title", "minLength")}
+        if isinstance(node, list):
+            return [resolve(item) for item in node]
+        return node
+
+    return resolve(schema)

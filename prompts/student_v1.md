@@ -1,0 +1,1 @@
+Analise a avaliação de cliente. Para cada aspecto avaliado (entrega, produto, embalagem, atendimento, preco, outro), dê o sentimento (positivo, neutro, negativo) e um trecho literal da avaliação como evidência; depois, um resumo de uma frase. Responda apenas com JSON: {"aspectos": [{"aspecto": "...", "sentimento": "...", "evidencia": "..."}], "resumo": "..."}

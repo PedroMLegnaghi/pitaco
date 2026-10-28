@@ -63,8 +63,9 @@ Irony is labeled by intended meaning ("Parabéns, 2 meses e nada" → `entrega: 
 | No quesito entrega vocês estão de parabéns. Chegou muito antes do previsto. Pena que o tablet trava muito | `entrega: positivo`, `produto: negativo` |
 | Não posso avaliar o que não recebi | `entrega: negativo` |
 | TUDO OK CONFORME ANUNCIADO. | `produto: positivo` ("conforme anunciado" = matches the ad) |
-| Não recomendo e nem compraria de novo nesse site, pois quando coloquei na cesta tava um preço e fui fechar a compra o mesmo estava mais caro | `preco: negativo`, `outro: negativo` (site) |
-| Tudo certo, recomendo! | `outro: positivo` (generic, nothing else labeled) |
+| comprei a mochila da Patrulha Canina e veio a mochila da Frozen. Estou tentanto trocar o pedido no site e dar erro de conexão. | `produto: negativo`, `outro: negativo` (site) |
+| TUDO CERTO COM A COMPRA | `outro: positivo` (generic, nothing else labeled) |
+| A loja entregou rapidamente, bem embalado. Recomendo a loja, mas não o produto. | `entrega: positivo`, `embalagem: positivo`, `atendimento: positivo`, `produto: negativo` |
 
 ## Process
 
