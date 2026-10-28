@@ -61,6 +61,7 @@ class TrainConfig(StrictModel):
 class GenerationConfig(StrictModel):
     max_new_tokens: int = 256
     throughput_batch_size: int = 16
+    throughput_reviews: int | None = 160  # reviews used to measure batched throughput (None = all)
 
 
 class StudentConfig(BaseConfig):
@@ -260,6 +261,8 @@ def predict(
         return render(tokenizer, cfg, messages, add_generation_prompt=True)
 
     val = pd.read_json(cfg.paths.data_dir / "processed" / "silver_val.jsonl", lines=True)
+    if cfg.generation.throughput_reviews:
+        val = val.head(cfg.generation.throughput_reviews)
     if limit:
         val = val.head(limit * cfg.generation.throughput_batch_size)
     batch = cfg.generation.throughput_batch_size
