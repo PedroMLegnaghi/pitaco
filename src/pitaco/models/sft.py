@@ -125,6 +125,7 @@ def load(cfg: StudentConfig, adapter: Path | None = None):
 
 
 def train(cfg: StudentConfig) -> dict:
+    import unsloth  # noqa: F401 — must come before trl/transformers/peft (patches + torchaudio guard)
     from datasets import load_dataset
     from trl import SFTConfig, SFTTrainer
     from unsloth.chat_templates import train_on_responses_only
@@ -222,6 +223,8 @@ def predict(
     cfg: StudentConfig, adapter: Path | None, system: str, limit: int | None = None
 ) -> dict:
     """Greedy predictions on gold dev/test (batch size 1 → latency) + batched throughput → cost."""
+    import unsloth  # noqa: F401 — must come before trl/transformers/peft (patches + torchaudio guard)
+
     loader, model, tokenizer = load(cfg, adapter)
     loader.for_inference(model)
     instruction = student_instruction(cfg.prompts_dir, cfg.student_prompt_version)
