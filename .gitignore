@@ -27,3 +27,5 @@ wandb/
 # Model weights cache (HF_HOME points here)
 .cache/
 unsloth_compiled_cache/
+results/predictions/smoke*/
+results/efficiency/smoke*

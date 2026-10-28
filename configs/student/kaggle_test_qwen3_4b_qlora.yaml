@@ -1,0 +1,8 @@
+# Short Kaggle test run (~15 min): same model/settings as the main run, 20 steps, no W&B.
+# Purpose: catch Kaggle-environment problems before the full run.
+extends: qwen3_4b_qlora.yaml
+
+wandb: {mode: disabled}
+train: {train_set: n500, max_steps: 20, eval_steps: 20}
+output_dir: outputs/kaggle-test
+system_name: kaggle-test-qwen3-4b

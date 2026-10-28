@@ -205,6 +205,17 @@ def train(cfg: StudentConfig) -> dict:
     return {"adapter": str(adapter_dir), "train_runtime_s": stats.metrics.get("train_runtime")}
 
 
+# Chat markup the student must never emit: our output is plain JSON. Qwen models are trained to
+# wrap answers in <think>/<tool_call> blocks, and a lightly fine-tuned model sometimes still starts
+# with them; forbidding these tokens at decoding time is a safe, schema-preserving constraint.
+FORBIDDEN_MARKUP = ("<think>", "</think>", "<tool_call>", "</tool_call>")
+
+
+def _forbidden_ids(tok) -> list[list[int]]:
+    vocab = tok.get_vocab()
+    return [[vocab[t]] for t in FORBIDDEN_MARKUP if t in vocab]
+
+
 def _generate(model, tokenizer, cfg: StudentConfig, prompts: list[str]) -> list[str]:
     import torch
 
@@ -214,9 +225,14 @@ def _generate(model, tokenizer, cfg: StudentConfig, prompts: list[str]) -> list[
     )
     enc = tok(prompts, return_tensors="pt", padding=True, add_special_tokens=False).to(model.device)
     with torch.no_grad():
-        out = model.generate(**enc, max_new_tokens=cfg.generation.max_new_tokens, do_sample=False)
+        out = model.generate(
+            **enc,
+            max_new_tokens=cfg.generation.max_new_tokens,
+            do_sample=False,
+            bad_words_ids=_forbidden_ids(tok) or None,
+        )
     new_tokens = out[:, enc["input_ids"].shape[1] :]
-    return tok.batch_decode(new_tokens, skip_special_tokens=True)
+    return [t.strip() for t in tok.batch_decode(new_tokens, skip_special_tokens=True)]
 
 
 def predict(
