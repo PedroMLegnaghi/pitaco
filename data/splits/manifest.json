@@ -1,0 +1,36 @@
+{
+  "source": {
+    "file": "olist_order_reviews_dataset.csv",
+    "sha256": "012b61c7593e34f51fa614efdf802b9c7056ce6aae5307ddb93236e7cfc797d7",
+    "license": "CC BY-NC-SA 4.0"
+  },
+  "seed": 42,
+  "stats": {
+    "raw_rows": 99224,
+    "with_text": 40977,
+    "pii_replacements": {
+      "name_honorific": 3,
+      "name_intro": 1,
+      "name_signoff": 19,
+      "phone": 3,
+      "url": 3
+    },
+    "reviews_with_pii": 27,
+    "min_3_words": 35305,
+    "unique_texts": 32490,
+    "stars_unique": {
+      "1": 7981,
+      "2": 1981,
+      "3": 3072,
+      "4": 4486,
+      "5": 14970
+    }
+  },
+  "near_duplicates_removed_from_pool": 36,
+  "splits": {
+    "gold_dev": 50,
+    "gold_test": 250,
+    "silver_train": 3600,
+    "silver_val": 400
+  }
+}

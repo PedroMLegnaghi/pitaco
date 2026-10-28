@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Annotated
 
 import typer
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
 from pitaco import __version__
 from pitaco.config import load_config
@@ -24,7 +24,7 @@ REQUIRED_KEYS = ("OPENROUTER_API_KEY", "HF_TOKEN", "WANDB_API_KEY")
 @app.callback()
 def main() -> None:
     """Pitaco pipeline: data → labeling → training → evaluation → publishing."""
-    load_dotenv()
+    load_dotenv(find_dotenv(usecwd=True))
 
 
 def _gpu_summary() -> str:
@@ -58,6 +58,24 @@ def check_env(
         typer.echo(f"{'set    ' if present else 'MISSING'} {key}")
     if not all(keys.values()):
         raise typer.Exit(code=1)
+
+
+@app.command("data")
+def data(
+    config: Annotated[Path, typer.Option(help="Config file")] = Path("configs/data.yaml"),
+) -> None:
+    """Download, clean, scrub PII, deduplicate and freeze the gold/silver splits."""
+    from pitaco.data.pipeline import DataConfig, run
+
+    manifest = run(load_config(config, DataConfig))
+    stats = manifest["stats"]
+    typer.echo(
+        f"raw {stats['raw_rows']} → with text {stats['with_text']} → unique {stats['unique_texts']}"
+    )
+    typer.echo(f"PII replaced in {stats['reviews_with_pii']} reviews: {stats['pii_replacements']}")
+    removed = manifest["near_duplicates_removed_from_pool"]
+    typer.echo(f"near-duplicates of gold removed from pool: {removed}")
+    typer.echo(f"splits: {manifest['splits']}")
 
 
 if __name__ == "__main__":

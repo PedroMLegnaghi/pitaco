@@ -1,0 +1,16 @@
+extends: base.yaml
+
+source:
+  kaggle_dataset: olistbr/brazilian-ecommerce
+  reviews_file: olist_order_reviews_dataset.csv
+
+filter:
+  # 1–2 word reviews ("Ótimo", "Muito bom") carry only overall sentiment and no aspect to extract.
+  min_words: 3
+
+split:
+  gold_dev_per_star: 10     # 5 stars × 10 = 50 dev  (prompt + guideline tuning)
+  gold_test_per_star: 50    # 5 stars × 50 = 250 test (final evaluation only)
+  silver_per_star: 800      # 5 stars × 800 = 4,000 teacher-labeled
+  silver_val_fraction: 0.1  # 400 val (early stopping, thresholds) / 3,600 train
+  near_dup_threshold: 90    # rapidfuzz ratio on normalized text; >= 90 counts as a copy of gold
